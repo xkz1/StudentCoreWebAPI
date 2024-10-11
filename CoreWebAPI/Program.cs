@@ -80,6 +80,11 @@ builder.Services.AddSwaggerGen(c =>
           );
 builder.Services.AddScoped<Startup>();
 
+#region Swagger分组
+
+
+#endregion
+
 builder.Services.AddMvc();
 // 添加动态WebApi 需放在 AddMvc 之后
 builder.Services.AddDynamicWebApi();

@@ -30,11 +30,20 @@ namespace Model.Entity
         [SugarColumn(ColumnDataType = "int", ColumnDescription = "0系统批判1老师批判")]
         public int TopicShow { get; set; }
         /// <summary>
-        /// 是否批改完成 
-        /// 0未批改1已批改
+        /// 标记正确答案
         /// </summary>
-        [SugarColumn(ColumnDataType = "int", ColumnDescription = "批改 0未批改1已批改", DefaultValue = "0")]
-        public int TopicFinish { get; set; }
+        [SugarColumn(ColumnDataType = "Nvarchar(20)", ColumnDescription = "标记正确答案 1是正确", DefaultValue = "0")]
+        public string TopicCorrect { get; set; }
+        /// <summary>
+        /// 所属类别
+        /// </summary>
+        [SugarColumn(ColumnDataType = "Nvarchar(20)", ColumnDescription = "所属类别")]
+        public string TopicSub { get; set; }
+        /// <summary>
+        /// 题型类别
+        /// </summary>
+        [SugarColumn(ColumnDataType = "int", ColumnDescription = "题型类别 1单选题2多选题3简答题")]
+        public int TopicGory { get; set; }
 
 
     }

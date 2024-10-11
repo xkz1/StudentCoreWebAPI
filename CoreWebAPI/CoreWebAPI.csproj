@@ -46,10 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SwggerGroup\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\xkz.png" />
   </ItemGroup>
 

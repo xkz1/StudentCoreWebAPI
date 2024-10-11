@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Model.Entity;
 
 
-namespace DAL.UserDal
+namespace DAL
 {
     public class UserDal
     {
@@ -59,7 +59,7 @@ namespace DAL.UserDal
             else
             {
                 // 验证密码是否正确
-                if (userPwd == null || !(entity.UserPassword.Equals(pwd)))
+                if (userPwd == null || !entity.UserPassword.Equals(pwd))
                 {
 
                     errorCode = -2;
@@ -101,7 +101,7 @@ namespace DAL.UserDal
                 m.UserPassword = GetSha256Hash(m.UserPassword);
                 m.CreateTime = DateTime.Now;
                 m.CreateUserId = "0";
-                return MyDbContext.SqlServerDb.InsertableWithAttr<UserEntity>(m).ExecuteCommand();
+                return MyDbContext.SqlServerDb.InsertableWithAttr(m).ExecuteCommand();
             }
             return 0;
         }
@@ -150,7 +150,7 @@ namespace DAL.UserDal
                 if (ue != null)
                 {
                     ue.UserPassword = GetSha256Hash(user.UserPassword);
-                    return MyDbContext.SqlServerDb.Updateable<UserEntity>(ue).ExecuteCommand();
+                    return MyDbContext.SqlServerDb.Updateable(ue).ExecuteCommand();
                 }
                 else
                 {

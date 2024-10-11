@@ -1,5 +1,4 @@
-﻿using DAL.UserDal;
-
+﻿using DAL;
 using Model.Entity;
 
 namespace BLL
