@@ -35,7 +35,7 @@ namespace CoreWebAPI.ControllersSerivce
             Password = "123",
             DefaultDatabase = 1
         });
-        IDatabase db = redis.GetDatabase();
+        IDatabase redisDb = redis.GetDatabase();
 
         public UserAppService(IWebHostEnvironment Imgeng)
         {
@@ -135,7 +135,7 @@ namespace CoreWebAPI.ControllersSerivce
         {
             Res dto = new Res();
             var MailBox = bll.GetCaptcha(UserMailBox);
-            bool isSuccess = db.StringSet(MailBox.Item1.UserAccount, MailBox.Item2, TimeSpan.FromMinutes(5));
+            bool isSuccess = redisDb.StringSet(MailBox.Item1.UserAccount, MailBox.Item2, TimeSpan.FromMinutes(5));
             #region 邮箱发送
             //参考代码：http://www.luofenming.com/show.aspx?id=ART2017111400001
 
@@ -157,7 +157,7 @@ namespace CoreWebAPI.ControllersSerivce
             mailObject.Body = content;
 
             // 创建一个发送邮件的客户端对象
-            using var smtpClient = new SmtpClient(EmailModel.ServerAddress, 465)
+            using var smtpClient = new SmtpClient(EmailModel.ServerAddress, 25)
             {
                 Credentials = new NetworkCredential(EmailModel.UserID, EmailModel.UserPwd),
                 EnableSsl = false // SSL
@@ -266,12 +266,12 @@ namespace CoreWebAPI.ControllersSerivce
         /// <summary>
         /// 忘记密码
         /// </summary>
-        /// <param name="UserMailBox"></param>
         /// <returns></returns>
-        public Res GetForgotPassword(UserEntity user)
+        public Res GetForgotPassword(UserPutPasswoed user)
         {
+            GetCaptcha(user.MailBox);
             Res dto = new Res();
-            dto.Data = bll.GetForgotPassword(user);
+            dto.Data = bll.UpdateUser(user.Account, user.oldPwd, user.newPwd);
             if (dto.Data.ObjToInt() == 0)
             {
                 dto.Message = "失败";

@@ -58,6 +58,10 @@
         /// 新密码
         /// </summary>
         public string newPwd { get; set; }
+        /// <summary>
+        /// 新密码
+        /// </summary>
+        public string? MailBox { get; set; }
     }
     #endregion
     #region InToOut

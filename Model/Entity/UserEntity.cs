@@ -46,8 +46,13 @@ namespace Model.Entity
         /// <summary>
         /// 用户班级
         /// </summary>
-        [SugarColumn(ColumnDataType = "Nvarchar(5)", ColumnDescription = "用户班级", IsNullable = true)]
+        [SugarColumn(ColumnDataType = "Nvarchar(10)", ColumnDescription = "用户班级", IsNullable = true)]
         public string? UserClass { get; set; }
+        /// <summary>
+        /// 用户班级
+        /// </summary>
+        [SugarColumn(ColumnDataType = "Nvarchar(10)", ColumnDescription = "用户班级", IsNullable = true)]
+        public string? UserRoom { get; set; }
 
     }
 }

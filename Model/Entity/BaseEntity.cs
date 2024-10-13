@@ -8,7 +8,7 @@ namespace Model.Entity
         /// 主键
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, ColumnDescription = "主键")]
-        public long Id { get; set; } = new Snowflake.Core.IdWorker(1, 1).NextId();
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         /// <summary>
         /// 创建人
         /// </summary>

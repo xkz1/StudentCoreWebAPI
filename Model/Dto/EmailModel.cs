@@ -13,20 +13,20 @@
         /// <summary>
         /// 发件人邮箱
         /// </summary>
-        public const string FromMial = "2310988723@qq.com";
+        public const string FromMial = "z2310988723@88.com";
         /// <summary>
         /// 发件人邮箱帐号 如QQ邮箱 为QQ号码
         /// </summary>
-        public const string UserID = "2310988723";
+        public const string UserID = "z2310988723";
         /// <summary>
         /// 发件人邮箱受权码
         /// </summary>
-        public const string UserPwd = "usggywpimrpgdhhc";
+        public const string UserPwd = "E8JHCqdvbdFbAn3p";
         /// <summary>
         /// 邮件服务地址 如QQ邮箱服务地址为smtp.qq.com
         ///            网易邮箱服务地址为smtp.163.com
         /// </summary>
-        public const string ServerAddress = "smtp.qq.com";
+        public const string ServerAddress = "smtp.88.com";
         /// <summary>
         /// 邮件主题/标题
         /// </summary>

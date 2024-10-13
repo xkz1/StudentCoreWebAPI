@@ -12,11 +12,11 @@ namespace Model.Entity
         /// 题目
         /// </summary>
         [SugarColumn(ColumnDataType = "Nvarchar(300)", ColumnDescription = "题目")]
-        public int Topics { get; set; }
+        public string Topics { get; set; }
         /// <summary>
-        /// 答案
+        /// 选项
         /// </summary>
-        [SugarColumn(ColumnDataType = "Nvarchar(100)", ColumnDescription = "答案")]
+        [SugarColumn(ColumnDataType = "Nvarchar(500)", ColumnDescription = "选项 0系统批判1老师批判")]
         public string? TopicAnswer { get; set; }
         /// <summary>
         /// 分值
@@ -32,7 +32,7 @@ namespace Model.Entity
         /// <summary>
         /// 标记正确答案
         /// </summary>
-        [SugarColumn(ColumnDataType = "Nvarchar(20)", ColumnDescription = "标记正确答案 1是正确", DefaultValue = "0")]
+        [SugarColumn(ColumnDataType = "Nvarchar(20)", ColumnDescription = "标记正确答案 1是正确", DefaultValue = "0", IsNullable = true)]
         public string TopicCorrect { get; set; }
         /// <summary>
         /// 所属类别
@@ -42,7 +42,7 @@ namespace Model.Entity
         /// <summary>
         /// 题型类别
         /// </summary>
-        [SugarColumn(ColumnDataType = "int", ColumnDescription = "题型类别 1单选题2多选题3简答题")]
+        [SugarColumn(ColumnDataType = "int", ColumnDescription = "题型类别 1单选题2多选题3判断4简答题")]
         public int TopicGory { get; set; }
 
 

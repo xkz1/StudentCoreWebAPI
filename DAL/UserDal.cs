@@ -108,7 +108,7 @@ namespace DAL
         /// <summary>
         /// 修改密码
         /// </summary>
-        /// <param name="OldPwd">旧密码</param>
+        /// <param name="oldPwd">旧密码</param>
         /// <param name="newPwd">新密码</param>
         /// <returns></returns>
         public int UpdateUser(string Account, string oldPwd, string newPwd)
@@ -137,35 +137,8 @@ namespace DAL
             return updateCount;
 
         }
-        /// <summary>
-        /// 忘记密码
-        /// </summary>
-        /// <param name="UserMailBox"></param>
-        /// <returns></returns>
-        public int GetForgotPassword(UserEntity user)
-        {
-            try
-            {
-                UserEntity ue = MyDbContext.SqlServerDb.Queryable<UserEntity>().WhereIF(user != null, x => x.UserMailBox == user.UserMailBox).First();
-                if (ue != null)
-                {
-                    ue.UserPassword = GetSha256Hash(user.UserPassword);
-                    return MyDbContext.SqlServerDb.Updateable(ue).ExecuteCommand();
-                }
-                else
-                {
 
-                    return 0;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                Console.WriteLine(ex);
-                throw;
-            }
-        }
-        #endregion 
+        #endregion
 
         #region 私有方法
         static string GetSha256Hash(string input)
