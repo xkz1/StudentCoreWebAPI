@@ -35,6 +35,13 @@ namespace BLL
         /// <param name="oldPwd">旧密码</param>
         /// <param name="newPwd">新密码</param>
         /// <returns></returns>
-        public int UpdateUser(string userName, string oldPwd, string newPwd) => dal.UpdateUser(userName, oldPwd, newPwd);
+        public int UpdateUser(string userName, string newPwd, string? oldPwd = null) => dal.UpdateUser(userName, newPwd, oldPwd);
+        /// <summary>
+        /// 忘记密码
+        /// </summary>
+        /// <param name="account">用户账号</param>
+        /// <param name="newPwd">用户密码</param>
+        /// <returns>int</returns>
+        public int ForgetPwd(string account, string newPwd) => dal.ForgetPwd(account, newPwd);
     }
 }

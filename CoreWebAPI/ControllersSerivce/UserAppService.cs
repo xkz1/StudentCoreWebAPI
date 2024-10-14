@@ -127,46 +127,51 @@ namespace CoreWebAPI.ControllersSerivce
             return dto;
         }
         /// <summary>
-        /// 验证码
+        /// 发送验证码
         /// </summary>
         /// <param name="UserMailBox"></param>
         /// <returns></returns>
         public async Task<Res> GetCaptcha(string UserMailBox)
         {
             Res dto = new Res();
+
             var MailBox = bll.GetCaptcha(UserMailBox);
             bool isSuccess = redisDb.StringSet(MailBox.Item1.UserAccount, MailBox.Item2, TimeSpan.FromMinutes(5));
-            #region 邮箱发送
-            //参考代码：http://www.luofenming.com/show.aspx?id=ART2017111400001
-
-            // 创建一个邮件对象
-            using var mailObject = new MailMessage();
-
-            // 设置发件人邮箱
-            mailObject.From = new MailAddress(EmailModel.FromMial);
-
-            // 设置收件人
-            var recipientEmail = MailBox.Item1.UserMailBox.ToString();
-            mailObject.To.Add(new MailAddress(recipientEmail));
-
-            // 设置邮件主题和内容
-            mailObject.SubjectEncoding = Encoding.UTF8;
-            mailObject.Subject = EmailModel.Subject;
-            mailObject.BodyEncoding = Encoding.UTF8;
-            var content = $"验证码是：{MailBox.Item2}";
-            mailObject.Body = content;
-
-            // 创建一个发送邮件的客户端对象
-            using var smtpClient = new SmtpClient(EmailModel.ServerAddress, 25)
+            if (isSuccess)
             {
-                Credentials = new NetworkCredential(EmailModel.UserID, EmailModel.UserPwd),
-                EnableSsl = false // SSL
-            };
+                #region 邮箱发送
+                //参考代码：http://www.luofenming.com/show.aspx?id=ART2017111400001
 
-            // 发送邮件
-            await smtpClient.SendMailAsync(mailObject);
+                // 创建一个邮件对象
+                using var mailObject = new MailMessage();
 
-            #endregion
+                // 设置发件人邮箱
+                mailObject.From = new MailAddress(EmailModel.FromMial);
+
+                // 设置收件人
+                var recipientEmail = MailBox.Item1.UserMailBox.ToString();
+                mailObject.To.Add(new MailAddress(recipientEmail));
+
+                // 设置邮件主题和内容
+                mailObject.SubjectEncoding = Encoding.UTF8;
+                mailObject.Subject = EmailModel.Subject;
+                mailObject.BodyEncoding = Encoding.UTF8;
+                var content = $"验证码是：{MailBox.Item2}";
+                mailObject.Body = content;
+
+                // 创建一个发送邮件的客户端对象
+                using var smtpClient = new SmtpClient(EmailModel.ServerAddress, 25)
+                {
+                    Credentials = new NetworkCredential(EmailModel.UserID, EmailModel.UserPwd),
+                    EnableSsl = false // SSL
+                };
+
+                // 发送邮件
+                await smtpClient.SendMailAsync(mailObject);
+
+                #endregion
+
+            }
 
 
 
@@ -227,7 +232,10 @@ namespace CoreWebAPI.ControllersSerivce
             Res res = new Res();
             try
             {
-                int count = bll.UpdateUser(userDot.Account, userDot.oldPwd, userDot.newPwd);
+                int count = 2;
+                if (userDot.oldPwd != null)
+                    count = bll.UpdateUser(userDot.Account, userDot.newPwd, userDot.oldPwd);
+
                 if (count == 1)
                 {
                     res.Data = count;
@@ -267,11 +275,15 @@ namespace CoreWebAPI.ControllersSerivce
         /// 忘记密码
         /// </summary>
         /// <returns></returns>
-        public Res GetForgotPassword(UserPutPasswoed user)
+        public Res PostForgotPassword(UserVerifyCode user)
         {
-            GetCaptcha(user.MailBox);
+            var val = redisDb.StringGet(user.Account);
+
             Res dto = new Res();
-            dto.Data = bll.UpdateUser(user.Account, user.oldPwd, user.newPwd);
+            if (user.VerifyCode == val.ObjToString())
+            {
+                dto.Data = bll.ForgetPwd(user.Account, user.newPwd);
+            }
             if (dto.Data.ObjToInt() == 0)
             {
                 dto.Message = "失败";

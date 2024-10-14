@@ -63,6 +63,22 @@
         /// </summary>
         public string? MailBox { get; set; }
     }
+    public class UserVerifyCode
+    {
+        /// <summary>
+        /// 用户账号
+        /// </summary>
+        public string? Account { get; set; }
+        /// <summary>
+        /// 用户验证码
+        /// </summary>
+        public string? VerifyCode { get; set; }
+        /// <summary>
+        /// 新密码
+        /// </summary>
+        public string newPwd { get; set; }
+
+    }
     #endregion
     #region InToOut
 

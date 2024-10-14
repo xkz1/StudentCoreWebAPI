@@ -111,7 +111,7 @@ namespace DAL
         /// <param name="oldPwd">旧密码</param>
         /// <param name="newPwd">新密码</param>
         /// <returns></returns>
-        public int UpdateUser(string Account, string oldPwd, string newPwd)
+        public int UpdateUser(string Account, string newPwd, string oldPwd)
         {
             //返回 1成功 2没有输入两个密码 3没有找到这个用户
             if (string.IsNullOrEmpty(oldPwd) || string.IsNullOrEmpty(newPwd))
@@ -136,6 +136,21 @@ namespace DAL
 
             return updateCount;
 
+        }
+        /// <summary>
+        /// 忘记密码
+        /// </summary>
+        /// <param name="account">用户账号</param>
+        /// <param name="newPwd">用户密码</param>
+        /// <returns>int</returns>
+        public int ForgetPwd(string account, string newPwd)
+        {
+
+            UserEntity ue = MyDbContext.SqlServerDb.Queryable<UserEntity>()
+            .WhereIF(account != null, x => x.UserAccount == account).First();
+            ue.UserPassword = GetSha256Hash(newPwd);
+
+            return MyDbContext.SqlServerDb.Updateable(ue).UpdateColumns(t => new { t.UserPassword }).ExecuteCommand();
         }
 
         #endregion
